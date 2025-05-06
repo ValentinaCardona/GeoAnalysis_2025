@@ -1,1 +1,1 @@
-# An-lisisGeo_2025
+# GeoAnalysis_2025
