@@ -185,6 +185,39 @@ model_glm <- glm(formula, data = gdf, family = binomial(link = "logit"))
 # Resumen del modelo
 summary(model_glm)
 
+# Graficamos el mapa
+## Mapa de probabilidades de ocurrencia del evento 
+# Añadir las probabilidades de predicción al GeoDataFrame
+gdf$probability_evento <- predict(model_glm, type = "response")
+
+# Mapa de predicción del mejor modelo
+library(ggplot2)
+library(sf)
+
+mapa_glm <- ggplot(gdf) +
+  geom_sf(aes(fill = probability_evento), color = "grey80", size = 0.2) +
+  scale_fill_gradient(name = "Probabilidad", low = "#fee8c8", high = "#e34a33", limits = c(0, 1))  +
+  labs(title = "Mapa de Probabilidad de Ocurrencia del Evento") +
+  theme_minimal() +
+  theme(
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    panel.grid = element_blank()
+  )
+
+mapa_glm
+
+# Curva ROC
+library(pROC)
+
+# Variable real (0/1)
+y <- gdf$evento
+# Probabilidades predichas
+y_prob <- gdf$probability_evento
+
+# Calcular curva ROC
+roc_obj <- roc(y, y_prob)
+
 #-------------------------------------------------------------------------------
 # Standard Binomial model in CARBayes, SIN DEPENDENCIA ESPACIAL 
 #-------------------------------------------------------------------------------
