@@ -1,11 +1,19 @@
-# Heterogenidad espacial
+# Modelo SAR y heterogenidad espacial
 
-# Modelos jerárquicos en R
+# Manejo de base de datos
+require(magrittr)
+require(janitor)
+require(tidyverse)
+require(kbl)
+require(kableExtra)
 
-#importar librerias
-library(tidyverse) #Manejo de bases de datos
-library(dplyr)
-library(magrittr) #Manejo de pipes
+# Librerías SAR
+library(sf)         # Para trabajar con datos espaciales (simple features)
+library(spdep)      # Para matrices de vecindad y tests de dependencia espacial
+library(spatialreg) # Para los modelos de regresión espacial
+library(dplyr)      # Para manipulación de datos (similar a pandas)
+
+# Librerías Heterogenidad
 library(sf) #para importar datos geoespaciales
 library(lme4) # para el modelo
 library(pscl) # para calcular los R2
@@ -18,8 +26,8 @@ library(pROC) # for the ROC curve
 library(broom)
 
 #Cargar datos
-setwd("G:/My Drive/Investigacion2025/Posgrado_Statistics/GeoAnalysis/data")
-data= st_read("G:/My Drive/Investigacion2025/Posgrado_Statistics/GeoAnalysis/data/Balso_Municipios.gpkg")
+setwd("C:/Users/Valentina Cardona/GitHub/GeoAnalysis_2025/data")
+data= st_read("C:/Users/Valentina Cardona/GitHub/GeoAnalysis_2025/data/Balso_Municipios_Macrocuenca.gpkg")
 
 # Renombramos algunas variables
 data <- data %>% rename(
@@ -34,6 +42,7 @@ data$Y_bin <- ifelse(data$conteo >= 1, 1, 0)
 
 # Convert 'departamento' to a factor (categorical variable)
 data$departamento <- as.factor(data$departamento)
+data$Macrocuenca <- as.factor(data$Macrocuenca)
 
 # Ensure predictor variables are standardized
 data$elev_mean_std <- scale(data$elev_mean)
@@ -81,10 +90,11 @@ model_summary <- tidy(m1) %>%
 
 # MODELO DE REGRESIÓN LOGÍSTICA CON INTERCEPTO VARIABLE (EFECTO ALEATORIO)-----
 # El modelo m2 es un modelo multinivel o modelo jerárquico que reconoce la estructura 
-# anidada de los datos, donde las observaciones individuales (subcuencas) están 
-# agrupadas dentro de unidades más grandes (cuencas). 
+# anidada de los datos, donde las observaciones individuales (municipios) están 
+# agrupadas dentro de unidades más grandes (macrocuenca). 
 
-m2_intercept_aleatorio <- glmer(
+# DEPARTAMENTO--------------------------
+m2 <- glmer(
   Y_bin ~ elev_mean_std + Temp_media_std + Prec_media_std + Rango_medio_std +
     Precipitacion_mes_seco_std + Isotermalidad_std + Estacionalidad_temp_std +
     Estacionalidad_prec_std +
@@ -95,10 +105,22 @@ m2_intercept_aleatorio <- glmer(
 )
 
 # Print the summary of the model
-summary(m2_intercept_aleatorio)
+summary(m2)
 
 # Fitted values
-data$m2fitted_intercept <- fitted(m2_intercept_aleatorio)
+data$m2 <- fitted(m2)
 
 # Extract random intercepts
-ranef_intercept <- ranef(m2_intercept_aleatorio)$departamento
+ranef_intercept <- ranef(m2)$departamento
+
+
+# MACROCUENCA--------------------------
+m3 <- glm(
+  Y_bin ~ elev_mean_std + Temp_media_std + Prec_media_std + Rango_medio_std +
+    Precipitacion_mes_seco_std + Isotermalidad_std + Estacionalidad_temp_std +
+    Estacionalidad_prec_std + Macrocuenca,
+  data = data,
+  family = binomial(link = "logit"))
+
+# Print the summary of the model
+summary(m3)

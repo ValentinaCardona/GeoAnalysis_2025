@@ -4,10 +4,10 @@ library(corrplot)
 library(tidyverse)
 
 setwd("G:/My Drive/Investigacion2025/Posgrado_Statistics/GeoAnalysis/data")
-data <- st_read("G:/My Drive/Investigacion2025/Posgrado_Statistics/GeoAnalysis/data/Balso_Departamento.gpkg")
+data <- st_read("G:/My Drive/Investigacion2025/Posgrado_Statistics/GeoAnalysis/data/Balso_Municipios.gpkg")
 
 data %>% as.data.frame() %>%
-  select(5:14) %>%
+  select(4:14) %>%
   na.omit() %>% 
   cor() %>% 
   round(2) %>% 
