@@ -419,6 +419,7 @@ modelo_inla_heter <- readRDS("modelo_inla_heter.rds")
 modelo_inla_besag <- readRDS("modelo_inla_besag.rds")
 modelo_inla_besag_heter_depend <- readRDS("modelo_inla_besag_heter_depend.rds")
 modelo_inla_bym <- readRDS("modelo_inla_bym.rds")
+modelo_inla_bym_heter_depend <- readRDS("modelo_inla_bym_heter_depend.rds")
 
 summary(model_glm) #Modelo logístico clásico. Sin dependencia ni heterogenidad espacial
 model_carbayes
