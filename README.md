@@ -11,11 +11,11 @@ Este repositorio contiene el desarrollo completo del proyecto de investigación 
 
 ## 📁 Estructura del repositorio
 
-├── data/ # Datos utilizados (GBIF, variables bioclimáticas de WorldClim, capas vectoriales)
-├── notebooks/ # Notebooks con análisis exploratorio, modelos GLM, INLA, etc.
-├── presentations/ # Presentaciones de avance del proyecto (PPTX)
-├── manuscript/ # Manuscrito en formato pdf (plantilla Remote Sensing - MDPI)
-└── README.md # Este archivo
+* data/ # Datos utilizados (GBIF, variables bioclimáticas de WorldClim, capas vectoriales)
+* notebooks/ # Notebooks con análisis exploratorio, modelos GLM, INLA, etc.
+* presentations/ # Presentaciones de avance del proyecto (PPTX)
+* manuscript/ # Manuscrito en formato pdf (plantilla Remote Sensing - MDPI)
+* README.md # Este archivo
 
 ---
 
@@ -24,7 +24,7 @@ Este repositorio contiene el desarrollo completo del proyecto de investigación 
 El objetivo principal del estudio fue:
 1. Analizar los patrones espaciales de la distribución actual de O. pyramidale en el país
 2. Comprender los procesos (factores ambientales) que explican dicha distribución
-3. 
+
 ---
 
 ## 📊 Métodos
