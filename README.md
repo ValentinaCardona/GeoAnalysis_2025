@@ -1,1 +1,2 @@
-# GeoAnalysis_2025
+# Curso Análisis Geoespacial.
+Universidad Nacional de Colombia, Sede Medellín 2025
